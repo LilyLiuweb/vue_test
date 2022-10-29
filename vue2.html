@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2</title>   
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--雙花括弧是模板語言-->
+    <!--作用域scope--> 
+    <div id="app1">{{typeof count}}</div> 
+    <div id="app1">{{count}}</div> 
+    
+</body>
+<script>
+    /* vue2寫法 */
+		//寫法一
+    new Vue({
+        data:{
+            count:1
+        },
+        el:"#app1",
+    })
+		//寫法二
+    const App = new Vue({
+        data:{
+            count:1
+        },
+        // el:"#app1",
+    })
+		App.$mount("#app1")
+
+</script>
+</html>
