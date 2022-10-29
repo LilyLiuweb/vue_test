@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue3</title>
+    <style>
+        button,input{
+            width: 50px;
+            height: 20px;
+            margin: 10px 0;
+        }
+        input{
+            width: 100px;
+            height: 15px;
+        }
+
+    </style>
+</head>
+<body>
+    <!--在HTML中指定渲染範圍-->
+    <div id="app">
+        <button v-for="num in 9" :key="num" @click="keyin = num">{{num}}</button>
+        <button>0</button>
+        <button @click="reduceCount">-</button>
+        <button @click="addCount">+</button>
+        <button @click="calc">=</button>
+        <button @click="clear">C</button>
+
+        <div>
+            step:{{step}}
+        </div>
+        <h6>
+            result:{{result}}
+        </h6>
+    </div>
+
+        <!-- <h1 data-mode="dark">{{title}}</h1>
+        <h3>${{price}}</h3>
+        <div class="price">
+
+            <button @click="reduceCount">-</button>
+            <input type="number" name="" id="" v-model.number="count">
+
+            <button @click="addCount">+</button>
+        </div>
+        <button>add</button>
+        <p>總計:{{total}}元</p> -->
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        //新增一個應用application→建立Vue實體(instance)
+        Vue.createApp({
+            data(){
+                return{
+                step '',
+                keyin: 0,
+                result : 0
+                }
+            },
+            methods:{
+                add(){
+                    this.result += this.keyin
+                },
+                reduce(){
+                    this.result -= this.keyin
+                },
+                sumTotal(){
+                    this.total = this.count * this.price
+                }
+            }
+        }).mount('#app'); //並掛載(mount)在網頁結點上
+    </script>
+</body>
+</html>
