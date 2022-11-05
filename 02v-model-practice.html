@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>02v-model</title>
+    <title>02v-model-practice</title>
     <style>
         button,input{
             width: 50px;
@@ -17,54 +17,53 @@
         }
 
     </style>
+    
 </head>
 <body>
-    <!--在HTML中指定渲染範圍-->
     <div id="app">
-        <h1 data-mode="dark">{{title}}</h1>
-        <h3>${{price}}</h3>
-        <div class="price">
-            
-            <!--v-on簡寫為@ ，類似onclick 事件-->
-            <!--count = count -1-->
-            <button @click="reduceCount">-</button>
-            <!--<input type="number" name="" id="" v-model="count">-->
-            <input type="number" name="" id="" v-model.number="count">
+        <h1 data-mode="dark">{{name}}'s {{title}}</h1>
+        <h3>{{count}}</h3>
+        <h3>{{price}}</h3>
 
+        <div class="price">
+            <button @click="reduceCount">-</button>
+            <!--v-model =  v-bind + v-on -->
+            <!--v-model常用於表單及元素來做雙向數據綁定，結合v-bind跟v-on一樣，用v-bind初始綁定與呈現資料，用v-on監聽事件來做資料更新。 -->
+            <!--v-model 常用表單用法如input、checkbox、select-->
+
+            <input type="number" v-model.number="count">
             <button @click="addCount">+</button>
         </div>
         <button>add</button>
-        <p>總計:{{total}}元</p>
+        <p>Total:{{total}}元</p>
     </div>
+
     <script src="https://unpkg.com/vue@next"></script>
     <script>
-        //新增一個應用application→建立Vue實體(instance)
         Vue.createApp({
             data(){
                 return{
-                    title:'我是一個商品',
-                    count:2,
+                    title:'商品排列',
+                    name:'Drone',
+                    count:5,
                     price:200,
                     total:0
                 }
             },
-            methods:{
+            method:{
                 addCount(){
-                    //透過this找到該物件
                     this.count += 1
-                    // this.total = this.count * this.price
                     this.sumTotal()
                 },
                 reduceCount(){
-                    if(this.count <=0) return
-                        this.count -= 1
-                        this.sumTotal()
+                    this.count -= 1
+                    this.sumTotal()
                 },
                 sumTotal(){
                     this.total = this.count * this.price
                 }
             }
-        }).mount('#app'); //並掛載(mount)在網頁結點上
+        }).mount('#app');
     </script>
 </body>
 </html>

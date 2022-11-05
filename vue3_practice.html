@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue3_practice</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{name}}'s introduction</h1>
+        <p>{{name}} likes to eat {{favorite_food}}.</p>
+        <p>boolean?1:0</p>
+        <p>{{talk ? 'talky':'love you'}}</p>
+        <p>size:{{size}}{{size.length}}</p>
+        <p>you have{{obj}}</p>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return{
+                    count:1,
+                    name:'lily',
+                    favorite_food:'sticky_tofu',
+                    talk:false,
+                    size:[158,52],
+                    obj:{head:1,
+                        eyes:2,
+                        noses:1,
+                        hands:2,
+                        foots:1}
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
