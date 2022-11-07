@@ -4,70 +4,131 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vue3</title>
+    <title>calc</title>
     <style>
+        .container{
+            max-width: 1200px;
+
+        }
+        #app{
+            width: 300px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            background-color: bisque;
+            padding: 1rem auto;
+        }
         button,input{
             width: 50px;
-            height: 20px;
-            margin: 10px 0;
+            height: 50px;
+            margin: 10px;
+            border-radius: 50%;
+            border: none;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-size: 2rem;
         }
-        input{
-            width: 100px;
-            height: 15px;
+/*         input{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+        } */
+        h1,h2{
+            text-align: center;
         }
-
+        h2{
+            width: 300px;
+            line-height: 50px;
+            background-color: #ddd;
+            text-align: right;
+            padding-right: 1rem;
+            box-sizing: border-box;
+            font-size: 2.4rem;
+        }
     </style>
 </head>
 <body>
     <!--在HTML中指定渲染範圍-->
-    <div id="app">
-        <button v-for="num in 9" :key="num" @click="keyin = num">{{num}}</button>
-        <button>0</button>
-        <button @click="reduceCount">-</button>
-        <button @click="addCount">+</button>
-        <button @click="calc">=</button>
-        <button @click="clear">C</button>
+    <div class="container">
+        <div id="app">
+            <h1>{{title}}</h1>
+            <h2>{{keyin.join(" ")}} </h2>
+            <h2>{{result}}</h2>
+           <!--  <button v-for="num in 9" :key="num" @click="keyin(num)">{{num}}</button>
+            <button>0</button> -->
 
-        <div>
-            step:{{step}}
+            <!--number -->
+            <input type="button" @click="number(1)" value="1">
+            <input type="button" @click="number(2)" value="2">
+            <input type="button" @click="number(3)" value="3">
+            <input type="button" @click="number(4)" value="4">
+            <input type="button" @click="number(5)" value="5">
+            <input type="button" @click="number(6)" value="6">
+            <input type="button" @click="number(7)" value="7">
+            <input type="button" @click="number(8)" value="8">
+            <input type="button" @click="number(9)" value="9">
+            <!-- operator -->
+            <input type="button" value="-" @click="number('-')"></input>
+            <input type="button" value="+" @click="number('+')"></input>
+            <input type="button" value="X" @click="number('X')"></input>
+            <input type="button" value="/" @click="number('/')"></input>
+
+            <!-- funcitonal btn -->
+            <input type="button" value="←" @click="back"></input>
+            <input type="button" value="=" @click="equal"></input>
+            <input type="button" value="C" @click="clear"></input>
+    
+            
         </div>
-        <h6>
-            result:{{result}}
-        </h6>
     </div>
-        <!-- <h1 data-mode="dark">{{title}}</h1>
-        <h3>${{price}}</h3>
-        <div class="price">
-
-            <button @click="reduceCount">-</button>
-            <input type="number" name="" id="" v-model.number="count">
-
-            <button @click="addCount">+</button>
-        </div>
-        <button>add</button>
-        <p>總計:{{total}}元</p> -->
     </div>
     <script src="https://unpkg.com/vue@next"></script>
     <script>
-        //新增一個應用application→建立Vue實體(instance)
         Vue.createApp({
             data(){
                 return{
-                step: '',
-                keyin: 0,
-                result : 0
-                }
+                    title:'Caculator',
+                    result : 0,
+                    keyin: [],
+                    num:0,
+                    total:0
+                    // count:''
+                };
             },
             methods:{
-                add(){
-                    this.result += this.keyin
+                plus(){
+                    this.result++;
                 },
                 reduce(){
-                    this.result -= this.keyin
+                    this.result--;
                 },
-                sumTotal(){
-                    this.total = this.count * this.price
-                }
+                multiply(){
+                    // this.result = this.result[0] * this.result[2];
+                },
+                divided(){
+                    // this.result / this.result;
+                },
+                back(){
+                    //  pop() 方法會移除並回傳陣列的最後一個元素
+                    this.keyin.pop();
+                },
+                clear(){
+                    this.keyin = [];
+                    this.result = 0;
+                },
+                equal(){
+                    this.result = eval(this.keyin.join(" "));
+                    this.keyin = [];
+                },
+                number(num){
+                    if(!parseInt(num)){
+                        if(!this.keyin.length){
+                            return;
+                        }
+                    }
+                    // push() 方法會將一或多個值加入至一個陣列中
+                    this.keyin.push(num);
+                },
             }
         }).mount('#app'); //並掛載(mount)在網頁結點上
     </script>

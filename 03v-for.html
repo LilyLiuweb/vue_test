@@ -44,7 +44,7 @@
                     <button @click="addCount(index)">+</button>
                 </div>
             </div>
-            <p>總計:{{total}}元</p>
+            <p>{{parsePrice(total)}}元</p>
         </div>
     </div>
     <script src="https://unpkg.com/vue@next"></script>
@@ -86,7 +86,10 @@
                     total:0 
                 }
             },
-            methods:{
+            methods:{//methods可以帶參數，但computed不行，用法有差別
+                parsePrice(price){
+                    return `TWD ${price*33}`
+                },
                 addCount(index){
                     this.count[index] += 1
                     this.sumTotal()

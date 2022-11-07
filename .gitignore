@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="array-rendering">
+        <select v-if="food.length>0">
+          <option v-for="(arrayItem, arrayKey) in food" :key="arrayKey" :value="arrayKey">
+            {{ arrayItem }}
+          </option>
+        </ul>
+        <ul>
+              <li v-for="(objItem, objKey, objIndex) in myObject" :key="objKey">
+                {{ objItem }}
+              </li>
+        </ul>
+    
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+    Vue.createApp({
+      data() {
+        return {
+          food: ['🍔', '🍗', '🍕'],
+                myObject: {
+                    title: 'VueJs課程',
+            author: '🐢',
+            publishedAt: '2022-07'
+                }
+        }
+      }
+    }).mount('#array-rendering')
+    </script>
+</body>
+</html>
