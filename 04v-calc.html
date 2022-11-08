@@ -5,132 +5,146 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>calc</title>
-    <style>
-        .container{
-            max-width: 1200px;
-
-        }
-        #app{
-            width: 300px;
-            box-sizing: border-box;
-            margin: 0 auto;
-            background-color: bisque;
-            padding: 1rem auto;
-        }
-        button,input{
-            width: 50px;
-            height: 50px;
-            margin: 10px;
-            border-radius: 50%;
-            border: none;
-            box-sizing: border-box;
-            cursor: pointer;
-            font-size: 2rem;
-        }
-/*         input{
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-        } */
-        h1,h2{
-            text-align: center;
-        }
-        h2{
-            width: 300px;
-            line-height: 50px;
-            background-color: #ddd;
-            text-align: right;
-            padding-right: 1rem;
-            box-sizing: border-box;
-            font-size: 2.4rem;
-        }
-    </style>
+   
 </head>
 <body>
     <!--在HTML中指定渲染範圍-->
-    <div class="container">
-        <div id="app">
-            <h1>{{title}}</h1>
-            <h2>{{keyin.join(" ")}} </h2>
-            <h2>{{result}}</h2>
-           <!--  <button v-for="num in 9" :key="num" @click="keyin(num)">{{num}}</button>
-            <button>0</button> -->
+    <h1>Calculator</h1>
+        <div id="app"> 
+            <div class="container">    
+                <!-- result_area -->
+                <div class="result">{{result || '0'}}</div>
 
-            <!--number -->
-            <input type="button" @click="number(1)" value="1">
-            <input type="button" @click="number(2)" value="2">
-            <input type="button" @click="number(3)" value="3">
-            <input type="button" @click="number(4)" value="4">
-            <input type="button" @click="number(5)" value="5">
-            <input type="button" @click="number(6)" value="6">
-            <input type="button" @click="number(7)" value="7">
-            <input type="button" @click="number(8)" value="8">
-            <input type="button" @click="number(9)" value="9">
-            <!-- operator -->
-            <input type="button" value="-" @click="number('-')"></input>
-            <input type="button" value="+" @click="number('+')"></input>
-            <input type="button" value="X" @click="number('X')"></input>
-            <input type="button" value="/" @click="number('/')"></input>
+                <!--first_row -->
+                <button  @click="clear" class="operator">C</button>
+                <button  @click="negative" class="operator">+/-</button>
+                <button  @click="percent" class="operator">%</button>
+                <button  @click="divide" class="operator">/</button>
+                <!--second_row -->   
+                <button  @click="clickNum(9)">9</button>
+                <button  @click="clickNum(8)">8</button>
+                <button  @click="clickNum(7)">7</button>
+                <button  @click="multiply" class="operator">x</button>
+                <!--third_row -->  
+                <button  @click="clickNum(6)">6</button>
+                <button  @click="clickNum(5)">5</button>
+                <button  @click="clickNum(4)">4</button>
+                <button   @click="minus" class="operator">-</button>
+                <!--fourth_row --> 
+                <button  @click="clickNum(3)">3</button>
+                <button  @click="clickNum(2)">2</button>
+                <button  @click="clickNum(1)">1</button>
+                <button   @click="plus" class="operator">+</button>
+                <!--fifth_row --> 
 
-            <!-- funcitonal btn -->
-            <input type="button" value="←" @click="back"></input>
-            <input type="button" value="=" @click="equal"></input>
-            <input type="button" value="C" @click="clear"></input>
-    
-            
-        </div>
-    </div>
-    </div>
+                <button  @click="clickNum(0)" class="zero">0</button>
+                <button  @click="dot" class="operator">.</button>
+                <button  @click="equal" class="operator">=</button>
+            </div>
+         </div>
+
     <script src="https://unpkg.com/vue@next"></script>
     <script>
         Vue.createApp({
             data(){
                 return{
-                    title:'Caculator',
-                    result : 0,
-                    keyin: [],
-                    num:0,
-                    total:0
-                    // count:''
-                };
+                    result : '',
+                    operatorClicked : false
+                }
             },
             methods:{
-                plus(){
-                    this.result++;
-                },
-                reduce(){
-                    this.result--;
-                },
-                multiply(){
-                    // this.result = this.result[0] * this.result[2];
-                },
-                divided(){
-                    // this.result / this.result;
-                },
-                back(){
-                    //  pop() 方法會移除並回傳陣列的最後一個元素
-                    this.keyin.pop();
+                clickNum(num){
+                    if(this.operatorClicked){
+                        this.result = '';
+                        this.operatorClick = false;
+                    }
+                    this.result = `${this.result}${num}`
                 },
                 clear(){
-                    this.keyin = [];
-                    this.result = 0;
+                    this.result = '';
+                },
+                negative(){
+                    this.result = this.result.unshift('-')?
+                    this.result.slice(1) : `-${this.result}`;
+                },
+                percent(){
+                    this.result = `${parseFloat(this.result)/100}`;
+                },
+                setPrevious(){
+                    this.previous = this.result;
+                    this.operatorClicked = true;
+                },
+                divide(){
+                    this.operator = (a,b)=> b / a;
+                    this.setPrevious();
+                },
+                multiply(){
+                    this.operator = (a,b)=> a * b;
+                    this.setPrevious();
+                },
+                minus(){
+                    this.operator = (a,b)=> b - a;
+                    this.setPrevious();
+                },
+                plus(){
+                    this.operator = (a,b)=> a + b;
+                    this.setPrevious();
+                },
+                dot(){
+                    if(this.result.indexOf('.') === -1){
+                        this.append('.');
+                    }
                 },
                 equal(){
-                    this.result = eval(this.keyin.join(" "));
-                    this.keyin = [];
-                },
-                number(num){
-                    if(!parseInt(num)){
-                        if(!this.keyin.length){
-                            return;
-                        }
-                    }
-                    // push() 方法會將一或多個值加入至一個陣列中
-                    this.keyin.push(num);
+                    this.result = `
+                    ${this.operator(parseFloat(this.result),parseFloat(this.previous)
+                    )}`;
+                    this.previous = null;    
                 },
             }
         }).mount('#app'); //並掛載(mount)在網頁結點上
     </script>
 </body>
 </html>
+
+<style>
+
+body{
+    height: 100vh;
+    background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);
+    background-repeat: no-repeat;
+}
+h1{
+    width: 100%;
+    text-align: center;
+}
+#app{
+    width: 100%;
+}
+.container{
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(6,50px);
+    margin: 0 auto;
+    border: 2px solid #111;
+    box-shadow: 4px 4px 4px #93a5cf;
+}
+.result,button{
+    font-size: 2rem;
+}
+.result{
+    grid-column:1/5;
+    text-align: right;
+    padding-right: 2rem;
+    background-color: #ddd;
+    border: 2px solid #111;
+}
+.zero{
+    grid-column:1/3
+}
+.operator:not(button:nth-last-child(2)){
+    background-color: #ddd;
+    border: 2px solid #111;
+}
+</style>
