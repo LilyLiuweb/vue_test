@@ -64,8 +64,7 @@
                     this.result = '';
                 },
                 negative(){
-                    this.result = this.result.unshift('-')?
-                    this.result.slice(1) : `-${this.result}`;
+                    this.result = this.result.indexOf('-') !== -1 ? `${this.result}` : `-${this.result}`;
                 },
                 percent(){
                     this.result = `${parseFloat(this.result)/100}`;
