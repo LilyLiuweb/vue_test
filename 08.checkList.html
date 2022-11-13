@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>checkList</title>
+</head>
+<body>
+    <!-- 
+    v-model(two sided binded)
+    使用對象:input，包含text,radio,checkbox,select,textarea
+    v-on(監聽event事件)
+    使用事件:click,change
+    v-bind:屬性綁定
+    使用屬性 : href,disabled,src等html裡面的attributes
+    語法:  :class=”{}”、:style=”{}”
+    綁定形式可以為array或object
+    v-for(列表渲染、迴圈渲染)
+    語法: item in arrays  / (item, index) in items
+    特別注意key，代表唯一值
+
+    v-if(條件判斷)
+    v-if條件判斷為true或false都會渲染，只是false時會將該ele註解或不渲染在瀏覽器中
+    v-show為false時，ele的css會變成display:none -->
+    <main id="todoList">
+        <h1>Todo List</h1>
+        <h3>Get things done, one item at a time.</h3>
+
+        <input type="text" v-model="toDoText"> 
+        <button @click="createItem">新增代辦事項</button>
+
+        <ul>
+            <li v-for="(item,index) in list" :key="index">
+                <input type="checkbox" v-model="item.select">{{item.name}}
+            </li>
+        </ul>
+        <button @click="doneAll">全部完成</button>
+
+        <hr>
+
+        <h3>Done</h3>
+        <ul>
+            <li v-for="(item,index) in doneList" :key="index">{{item.name}}</li>
+        </ul>
+        <button @click="deleteAll">全部刪除</button>
+        <button @click="deleteDone">刪除完成項目(刪除選取)</button>
+
+
+    </main>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){return{
+                toDoText:'',
+                list:[
+                    {select: false, name: '測試一下'}
+                ]
+            }},
+            //computed計算屬性，當資料有改變時，將所發生的變化渲染出來
+            computed:{
+                doneList(){
+                    return this.list.filter(item => item.select)
+                }
+            },
+            // methods -所有有綁定事件處理都會執行，無論資料有沒有改變
+            methods:{
+                createItem(){
+                    this.list.push({
+                        select: false,
+                        name: this.toDoText
+                    })
+                    this.toDoText = ''
+                },
+                doneAll(){
+                    this.list = this.list.map(item => {
+                        return {
+                            ...item,
+                            select: true
+                        }
+                    })
+                },
+                deleteAll(){
+                    this.list = []
+                },
+                deleteDone(){
+                    this.list = this.list.filter(item => !item.select)
+                }
+            },
+            // created: Vue實體被建立完後要執行的事情
+            created(){},
+            //mounted的意思是:整個vue被渲染完之後才會做的事情
+            mounted(){},
+        }).mount('#todoList')
+    </script>
+</body>
+</html>

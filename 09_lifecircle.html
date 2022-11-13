@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-for</title>
+    <style>
+        button,input{
+            width: 50px;
+            height: 20px;
+            margin: 10px 0;
+        }
+        input{
+            width: 100px;
+            height: 15px;
+        }
+        img{
+            width: 4rem;
+        }
+        .productContainer{
+            width: 1200px;
+            display: flex;
+            justify-self: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <!-- search -->
+            search: <input type="text" v-model="search"><br>
+            <!-- {{search}}-->
+            挑選大於 : $<input type="number" v-model="min" min="0" >-<input type="number" v-model="max" min="0" >$的商品
+            <!-- {{filter}} -->
+        </header>
+        <template v-if="load">load...</template>
+        <template v-else>
+             <div  class="productContainer">
+                <!--變數,索引陣列-->
+                <div v-for="(item, index) in product" :key="item.id"><!--建議要下唯一值key-->
+                    <p>{{item.title}}</p>
+                    <!--v-bind 可縮寫為 :屬性/例如:src-->
+                    <template v-if="item.rating">
+                        <!-- 判斷是否有此值，可能後端會有null -->
+                        
+                        <!--寫法一 <p>評價:{{item['rating']['rate']}}</p> -->
+                        <!--寫法二 <p>評價:{{item.rating.rate}}</p> -->
+                        <!-- 一定要用正整數 -->
+                        <span v-for="count in parseInt(item.rating.rate)">⭐</span>
+                        <span v-for="count in (5-parseInt(item.rating.rate))">✰</span>
+                        <!--寫法一 <p>評價數:{{item['rating']['count']}}</p> -->
+                        <!--寫法二 <p>評價數:{{item.rating.count}}</p> -->
+                    </template>
+                   
+                    <img :src="item.image" :alt="item.title">
+                    <p>{{item.price}}元</p>
+                    <div>
+                        <button @click="reduceCount(index)">-</button>
+                        <input type="number" name="" id="" v-model="count[index]" min="0">
+                        <button @click="addCount(index)">+</button>
+                    </div>
+                </div>
+              <p>總計:{{total}}元</p>
+            </div>
+        </template>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return{
+                    load:false,
+                    source:[],
+                    // product :[],
+                    sourceCount:0,
+                    order:[],
+                    count:[],
+                    total:0, 
+                    search: '',
+                    min: 0,
+                    max: 0,
+                    rating:[]
+                }
+            },
+            computed:{
+                product(){
+                    let array = this.source
+                    if(this.min > 0){
+                        array = array.filter(item =>{
+                            return item.price > this.min
+                        })
+                    }
+
+                    if(this.max > 0){
+                        array = array.filter(item =>{
+                            return item.price < this.max
+                        })
+                    }
+                    
+                    if(this.search !== ''){
+                        array = array.filter(item =>{
+                            return item.title.includes(this.search);
+                        })
+                    }
+                    return array
+                }
+            },
+            methods:{
+                getResourse(){
+                    this.load =true
+                    fetch('https://fakestoreapi.com/products')
+                    .then(res=>res.json())
+                    .then(json=>{
+                        this.source = json //記得product要有空陣列
+                        for(const item in this.product){
+                            //初始化商品數量
+                            this.count.push(0)
+                        }
+                        this.load = false
+                        // this.sourceCount = this.source.length
+                        // console.log('method:' +this.sourceCount) //20
+                    })
+                },
+                addCount(index){
+                    this.count[index] += 1
+                    this.sumTotal()
+                },
+                reduceCount(index){
+                    if(this.count[index] <=0) return
+                        this.count[index] -= 1
+                        this.sumTotal()
+                },
+                sumTotal(){
+                    this.total = 0
+                    // this.total += this.count* this.price
+                    for(countIndex in this.count){
+                        if(this.product[countIndex]['price']){
+                            return this.total += this.count[countIndex] * this.product[countIndex]['price']
+                        }
+                    }
+                    this.total = parseInt(this.total)
+                }
+            },
+            // created: Vue實體被建立完後要執行的事情
+            created(){
+                // console.log("created"+this.max);
+                this.getResourse()
+            },
+            //mounted的意思是:整個vue被渲染完之後才會做的事情
+            mounted(){
+                // console.log('mounted'+this.source.length);
+                // this.sourceCount = this.source.length;
+                // console.log(this.sourceCount);
+            }, 
+            beforeUnmount(){
+                // alert('beforeUnmount')
+                // console.log('beforeUnmount')
+            }
+        }).mount('#app'); 
+    </script>
+</body>
+</html>

@@ -49,7 +49,7 @@
             data(){
                 return{
                     result : '',
-                    operatorClicked : false
+                    operatorClicked : false,
                 }
             },
             methods:{
@@ -59,9 +59,13 @@
                         this.operatorClick = false;
                     }
                     this.result = `${this.result}${num}`
+                    console.log(`${this.result},${num}`)
                 },
-                clear(){
-                    this.result = '';
+                clear(){ 
+                    if(this.operatorClicked){
+                        this.result = '';
+                        this.previous = '';
+                    }
                 },
                 negative(){
                     this.result = this.result.indexOf('-') !== -1 ? `${this.result}` : `-${this.result}`;
