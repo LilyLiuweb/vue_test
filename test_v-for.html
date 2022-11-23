@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_v-for</title>
+    <style>
+       .flex{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+       }
+       .flex div{
+        border: 1px solid black;
+        padding: 10px;
+       }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+        <ul>
+            <!-- 這裡的 item 的名稱可任意命名，只要是合法的 JavaScript 變數名稱即可。 -->
+            <!-- 也可以在 v-for 指令加入索引值 index -->
+            <li v-for="(item,index) in arr">{{index}}/{{item}}</li>
+        </ul>
+        <select name="" id="">
+            <option value="" v-for="item in arr2">{{item}}</option>
+        </select>
+        <template class="flex" >
+            <!-- 除了陣列與物件之外， v-for 也可以接受整數作為渲染的條件，數字越大重複的次數越多。 -->
+            <div v-for="item in 5">
+                <h2>Title</h2>
+                <p>Text</p>
+                <img src="https://picsum.photos/200/200/?random=10">
+            </div>
+        </template>
+
+        <ul>
+            <li v-for="page in 10">{{page}}</li>
+        </ul>
+        <!-- ========================= -->
+        <p v-for="(val, key , index) in book">{{key}}/{{val}}/{{index}}</p>
+
+        <!-- ========================= -->
+        <!-- 用列表的排序與過濾 -->
+        <div class="block" v-for="i in evenNumbers">{{i}}</div>
+
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+       
+        Vue.createApp({
+            data(){
+                return{
+                    arr:['008','JS','is','awesome'],
+                    arr2:['台北市','新北市','桃園','基隆','新竹','苗栗','台中','嘉義','台南','高雄','屏東'],
+                    book:{
+                        title:'JS',
+                        author:'Lily',
+                        publishedAt:'2022/11'
+                    },
+                    page:1,
+                    numbers:[1,2,3,4,5,6,7,8,9,10]
+                }
+            },
+            methods:{
+           
+            },
+            computed:{
+                //只顯示偶數
+                evenNumbers(){
+                return  this.numbers.filter(num => num%2 === 0)
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

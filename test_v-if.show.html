@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_v-on</title>
+    <style>
+        p{
+            text-align: center;
+            width: 100px;
+            line-height: 100px;
+            background-color: #fa0;
+            color: #fff;
+            border: 1px solid black;
+        }
+        .block{
+            width: 100px;
+            height: 100px;
+            background-color: #fa0;
+            color: #fff;
+            border: 1px solid black;
+        }
+        .block.A{
+            background-color: #f00;
+        }
+        .block.B{
+            background-color: #f0a;
+        }
+
+       
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+        <!-- 1. v-if/v-show 控制顯示/移除與否 -->
+        <input type="checkbox" name="" id="" v-model="isShow">isShow:{{isShow}}
+       <!-- v-if對應的值為falsy時元素會直接被移除 -->
+        <p v-if="isShow">V-IF</p>
+       <!-- v-show則會透過css的display:none方式來將元素隱藏 -->
+       <p v-show="isShow">V-SHOW</p>
+       <hr>
+       <!-- ================= -->
+       <!--  2. v-if/else-if/else 判斷何時顯示對應的元素 -->
+       <div>{{count}}</div>
+       <button @click="press">count</button>
+        <div class="block A" v-if="count === 0">Block A</div>
+        <div class="block B" v-else-if="count >= 5">Block B</div>
+        <div class="block C" v-else>Block C</div>
+        <hr>
+        <!-- ================= -->
+        <!-- 3.多個元素希望同時根據某個條件來切換 設定在父層template-->
+        <template v-if="value==='A'">
+            <div>
+                <h1>Title A</h1>
+                <p>paragraph A -1</p>
+                <p>paragraph A -2</p>                
+            </div>
+        </template>
+        <template v-else>
+            <div>
+                <h1>Title B</h1>
+                <p>paragraph B -1</p>
+                <p>paragraph B -2</p>
+            </div>
+        </template>
+        <hr>
+
+        <!-- 4.v-if會根據key屬性是否相同，來決定是否重新渲染元素 -->
+        <label for="">
+            <input type="radio" value="username" v-model="loginType">Username
+        </label>
+
+        <label for="">
+            <input type="radio" value="email" v-model="loginType">email
+        </label>
+
+        <template v-if="loginType === 'username'">
+            <div>
+                <label for="">Username</label>
+                <input type="text" placeholder="enter your name" key="username">
+            </div>
+        </template>
+        <template v-else>
+            <div>
+                <label for="">Email</label>
+                <input type="email" placeholder="enter your email" key="email">
+            </div>
+        </template>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+       
+        Vue.createApp({
+            data(){
+                return{
+                    count:0,
+                    value:'A',
+                    loginType:'username'
+                }
+            },
+            methods:{
+                press(){
+                    this.count++;
+                }
+            },
+            computed:{
+             
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

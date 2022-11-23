@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_v-on</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+        <p>{{count}}</p>
+        <!-- 遞增++/遞減-- -->
+        <button @click="count++">PLUS</button>
+
+        <!-- ======================= -->
+        <!-- 也可以把 event handler function 寫在 methods 裡頭： -->
+
+        <p><input type="text" v-model.number="amount"></p>
+        <p>count:{{amount}}</p>
+
+        <button @click="plus(amount, $event)">add</button>
+        <button @click="clear()">clear</button>
+        <!-- keyup -->
+        <p>你所按的按鈕為:{{pressKey}}</p>
+        <input type="text" @keyup="press" placeholder="請按鍵盤某一按建">
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+       
+        Vue.createApp({
+            data(){
+                return{
+                    amount:0,
+                    count:0,
+                    pressKey:[]
+                }
+            },
+            methods:{
+                // 也可以把 event handler function 寫在 methods 裡頭：
+                plus(amount, event){
+                    // this.count++;
+                    console.log(event.target.tagName);
+                    this.count += amount ;
+                },
+                clear(){
+                    this.count= 0
+                },
+                press(event){
+                    this.pressKey = event.key;
+                    window.setTimeout(()=>{
+                        event.target.value +=''
+                    })
+                }
+       
+            },
+            computed:{
+             
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

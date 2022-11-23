@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_v-model</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 1. input -->
+        <!-- 當我們在 input 加上 v-model="message" 之後，此時輸入框便會自動被綁訂為input 事件 -->
+        <input type="text" v-model="message" placeholder="edit me">
+
+        <!-- 當輸入框內的文字被更改的時候，就會同步更新至 data 的 message 裡 -->
+        <p>message is {{message}}.</p>
+
+        <!-- ===================== -->
+        <!-- 2. textarea -->
+        <textarea v-model="mulitply_text" cols="30" rows="10" placeholder="please type mulitply lines here"></textarea>
+        <p >mulitply_text are {{mulitply_text}}.</p>
+
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return{
+                    message:'Hello',
+                    mulitply_text:'text here'
+                }
+            },
+            computed:{
+
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

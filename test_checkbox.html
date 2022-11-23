@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_checkbox</title>
+</head>
+<body>
+    <div id="app">
+        <!-- checkbox mulitply choose -->
+        <input type="checkbox" name="" id="Jack" value="Jack" v-model="checkNames">Jack
+        <input type="checkbox" name="" id="Lily" value="Lily" v-model="checkNames">Lily
+        <input type="checkbox" name="" id="Luke" value="Luke" v-model="checkNames">Luke
+        <input type="checkbox" name="" id="Jesus" value="Jesus"v-model="checkNames" >Jesus
+      <button @input="checkAll">全選</button>
+      <button @input="clearAll">取消</button>
+      <p>{{checkNames}} are couple.</p>
+        <hr>
+        
+      <!-- checkbox check status -->
+      <input type="checkbox" name="" id="checkbox" v-model="isChecked">
+      <label for="checkbox">Status : {{isChecked}}</label>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        //因為checkbox是複選，所以這裡的checkedNames是陣列
+        Vue.createApp({
+            data(){
+                return{
+                    checkNames:[],
+                    isChecked:true
+                }
+            },
+            computed:{
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

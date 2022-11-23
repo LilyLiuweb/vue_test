@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_v-bind</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 純文字數性 -->
+        <h1>{{title}}</h1>
+        <!-- v-bind 指令除了完整的 v-bind:屬性名稱 寫法外，也可以直接簡寫成 :屬性名稱 -->
+
+        <!-- v-bind:屬性名稱 用vue實體來輸出id -->
+        <p :id="customId">...</p>
+        <!-- v-bind:屬性名稱 控制按鈕屬性 -->
+        <button :disabled="isBtnDisabled">click me</button>
+        <!-- v-bind:屬性名稱 控制圖片路徑 -->
+        <img :src="isImgSrc">
+        <!-- v-bind:屬性名稱 控制連結路徑 -->
+        <a :href="outerLink">外部連結</a>
+
+
+        <!-- 簡單說
+            1. 有 : 的是 Vue 實體 v-bind 綁定後的屬性
+            2. 沒有的則是純文字屬性。 -->
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return{
+                    title:'test_v-bind',
+                    customId: 'item_id_1',
+                    isBtnDisabled: false,
+                    isImgSrc:'https://fakeimg.pl/1000x200/300',
+                    outerLink:'https://www.google.com/'
+                }
+            },
+            computed:{
+
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

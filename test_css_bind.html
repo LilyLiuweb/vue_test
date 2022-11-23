@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_checkbox</title>
+    <style>
+        .err{
+            color: red;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <!-- 當使用者在文字輸入框輸入超過十個字元的內容時，
+        加入紅色樣式來作為警告提示 -->
+    <div id="app">
+        <!-- 控制一個css樣式:當message的內容長度超過10個字時，就會自動加上err的class -->
+        <!-- <input type="text" v-model="message" :class="{'err' :message.length >10}"> -->
+        <!-- <input type="text" v-model="message" class="err"  -->
+
+        <!-- 控制多個css樣式，用，分隔 -->
+        <!-- <input type="text" v-model="message" :class="{active: isActive,'err': hasError}"> -->
+
+        <!-- 直接操作style屬性 -->
+        <input type="text" v-model="message" :style="mystyle" placeholder="請勿超過十個字">
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+       
+        Vue.createApp({
+            data(){
+                return{
+                    message:'',
+                    isActive:true,
+                    hasError:true
+
+                }
+            },
+            computed:{
+                isValid:function(){
+                    return this.message.length <=10;
+                },
+                mystyle:function(){
+                    return{
+                        'border':this.isValid ? '' : '1px  solid red',
+                        'color': this.isValid ? '' : 'red'
+                    }
+                }
+                
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

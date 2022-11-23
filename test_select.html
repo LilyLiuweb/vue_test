@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_checkbox</title>
+</head>
+<body>
+    <div id="app">
+        <!-- isChecked -->
+        <!-- 設定要雙向綁定的選項 -->
+        <!-- v-model 必須使用在 <select> 標籤，不可套用在 <option> 標籤中。 -->
+       <select name="" id="" v-model="selected1">
+            <option value="" disabled>請選擇:</option>
+            <!--記得要寫value的值 -->
+            <option value="基隆市">基隆市</option>
+            <option value="台北市">台北市</option>
+            <option value="新北市">新北市</option>
+       </select>
+
+       <p>我居住在: {{selected1 || '未選擇'}}</p>
+
+       <!-- v-model.lazy ，原本input事件敢為監聽事件change。當使用者離開輸入框時才會更新data的內容 -->
+       <input type="text" v-model.lazy="text">
+       <p>text: {{text}}</p>
+
+       <!--在input輸入框中，即便輸入都是數字，但實際上都會以字串的形式出現，所以假設使用者分別在num1與num2兩個輸入框填入1與2後，會得到12 -->
+       <!-- 可以用 .number修飾子，當v-model更新狀態時，會在背後試圖將對應的資料轉型為數字格式，回傳值就會正確 -->
+
+       <input type="text" v-model.number="num1">+
+       <input type="text" v-model.number="num2">={{sum}}
+
+
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+       
+        Vue.createApp({
+            data(){
+                return{
+                  selected1:'',
+                  text:'',
+                  num1:0,
+                  num2:0
+                }
+            },
+            computed:{
+                sum(){
+                    return this.num1 + this.num2;
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
